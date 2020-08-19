@@ -25,7 +25,7 @@ int main(void)
 
 	while(1)
 	{
-		LED_voidTogle(GPIOB, PIN13);
+		LED_voidTogle(GPIOB, PIN12);
 	}
 
 }
