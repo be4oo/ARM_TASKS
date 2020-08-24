@@ -4,13 +4,14 @@
 /* Date    : 8 AGU 2020															*/
 /********************************************************************************/
 
-#ifndef RCC_INTERFACE_H
-#define RCC_INTERFACE_H
+#ifndef BIT_MATH_H
+#define BIT_MATH_H
 
-#define RCC_AHB		0
-#define RCC_APB1	1
-#define RCC_APB2	2
 
+#define SET_BIT(VAR,BIT)			VAR |=  (1<<(BIT))
+#define CLR_BIT(VAR,BIT)			VAR &= ~(1<<(BIT))
+#define GET_BIT(VAR,BIT)			((VAR >> BIT) & 1)
+#define TOG_BIT(VAR,BIT)			VAR ^=  (1<<(BIT))
 
 
 #endif

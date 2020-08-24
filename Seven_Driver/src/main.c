@@ -17,8 +17,9 @@ void delay(void);
 
 int main(void)
 {
-	RCC_voidInitSysClock();
 
+	RCC_voidInitSysClock();
+	/* Enable GPIOA */
 	RCC_voidEnableClock(RCC_APB2,2);
 
 	RCC_voidEnableClock(RCC_APB2,3);

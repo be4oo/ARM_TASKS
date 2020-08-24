@@ -4,13 +4,11 @@
 /* Date    : 8 AGU 2020															*/
 /********************************************************************************/
 
-#ifndef RCC_INTERFACE_H
-#define RCC_INTERFACE_H
+#ifndef STD_TYPES_H
+#define STD_TYPES_H
 
-#define RCC_AHB		0
-#define RCC_APB1	1
-#define RCC_APB2	2
-
-
+typedef unsigned char		u8;
+typedef unsigned short int  u16;
+typedef unsigned long  int  u32;
 
 #endif
