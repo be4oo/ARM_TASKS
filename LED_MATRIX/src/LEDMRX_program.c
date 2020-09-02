@@ -1,6 +1,6 @@
 /********************************************************************************/
 /* Author  : BESHO																*/
-/* Version : V01																*/
+/* Version : V01.1																*/
 /* Date    : 31 AUG 2020														*/
 /********************************************************************************/
 
@@ -99,6 +99,115 @@ void HLEDMRX_voidDisplay(u8 *Copy_u8Data)
 		MSTK_voidSetBusyWait(2500);  // 2.5 mSec
 	}
 	
+}
+
+void HLEDMRX_voidDisplayOnce(u8 *Copy_u8Data, u8 Copy_u8ScrollCounter)
+{
+
+	volatile u32 x = 2500;
+
+	for(int i = 0 ; i < 5 ; i++)
+	{
+	/* disable all col */
+	DisableAllCols();
+	SetRowValues(Copy_u8Data[Copy_u8ScrollCounter]);
+	/* enable col-0- */
+	MGPIO_voidSetPinValue(LEDMRX_COL0_PIN, GPIO_LOW);
+	MSTK_voidSetBusyWait(x);  // 2.5 mSec
+
+
+	/* disable all col */
+	DisableAllCols();
+	SetRowValues(Copy_u8Data[Copy_u8ScrollCounter+1]);
+	/* enable col-1- */
+	MGPIO_voidSetPinValue(LEDMRX_COL1_PIN, GPIO_LOW);
+	MSTK_voidSetBusyWait(x);  // 2.5 mSec
+
+	/* disable all col */
+	DisableAllCols();
+	SetRowValues(Copy_u8Data[Copy_u8ScrollCounter+2]);
+	/* enable col-2- */
+	MGPIO_voidSetPinValue(LEDMRX_COL2_PIN, GPIO_LOW);
+	MSTK_voidSetBusyWait(x);  // 2.5 mSec
+
+	/* disable all col */
+	DisableAllCols();
+	SetRowValues(Copy_u8Data[Copy_u8ScrollCounter+3]);
+	/* enable col-3- */
+	MGPIO_voidSetPinValue(LEDMRX_COL3_PIN, GPIO_LOW);
+	MSTK_voidSetBusyWait(x);  // 2.5 mSec
+
+	/* disable all col */
+	DisableAllCols();
+	SetRowValues(Copy_u8Data[Copy_u8ScrollCounter+4]);
+	/* enable col-4- */
+	MGPIO_voidSetPinValue(LEDMRX_COL4_PIN, GPIO_LOW);
+	MSTK_voidSetBusyWait(x);  // 2.5 mSec
+
+	/* disable all col */
+	DisableAllCols();
+	SetRowValues(Copy_u8Data[Copy_u8ScrollCounter+5]);
+	/* enable col-5- */
+	MGPIO_voidSetPinValue(LEDMRX_COL5_PIN, GPIO_LOW);
+	MSTK_voidSetBusyWait(x);  // 2.5 mSec
+
+	/* disable all col */
+	DisableAllCols();
+	SetRowValues(Copy_u8Data[Copy_u8ScrollCounter+6]);
+	/* enable col-6- */
+	MGPIO_voidSetPinValue(LEDMRX_COL6_PIN, GPIO_LOW);
+	MSTK_voidSetBusyWait(x);  // 2.5 mSec
+
+	/* disable all col */
+	DisableAllCols();
+	SetRowValues(Copy_u8Data[Copy_u8ScrollCounter+7]);
+	/* enable col-7- */
+	MGPIO_voidSetPinValue(LEDMRX_COL7_PIN, GPIO_LOW);
+	MSTK_voidSetBusyWait(x);  // 2.5 mSec
+
+	//Copy_u8ScrollCounter++;
+	//MSTK_voidSetBusyWait(10000);
+	}
+
+}
+
+void HLEDMRX_voidDisplayScroll(u8 *Copy_u8BigData)
+{
+
+	//volatile long int i = 50000;
+
+	while(1)
+	{
+
+
+		for(int t = 0 ; t < 19 ; t++)
+		{
+			HLEDMRX_voidDisplayOnce(Copy_u8BigData, t);
+			MSTK_voidSetBusyWait(30000);
+		}
+			/*
+		HLEDMRX_voidDisplayOnce(Copy_u8BigData, 1);
+		MSTK_voidSetBusyWait(i);
+		HLEDMRX_voidDisplayOnce(Copy_u8BigData, 2);
+		MSTK_voidSetBusyWait(i);
+		HLEDMRX_voidDisplayOnce(Copy_u8BigData, 3);
+		MSTK_voidSetBusyWait(i);
+		HLEDMRX_voidDisplayOnce(Copy_u8BigData, 4);
+		MSTK_voidSetBusyWait(i);
+		HLEDMRX_voidDisplayOnce(Copy_u8BigData, 5);
+		MSTK_voidSetBusyWait(i);
+		HLEDMRX_voidDisplayOnce(Copy_u8BigData, 6);
+		MSTK_voidSetBusyWait(i);
+			 */
+
+		//HLEDMRX_voidDisplayOnce(Copy_u8BigData, 8);
+		//MSTK_voidSetBusyWait(2000000);
+		//HLEDMRX_voidDisplayOnce(Copy_u8BigData, 16);
+		//MSTK_voidSetBusyWait(2500);
+		//HLEDMRX_voidDisplayOnce(Copy_u8BigData, 24);
+		//MSTK_voidSetBusyWait(2000000);
+
+	}
 }
 
 static void DisableAllCols(void)

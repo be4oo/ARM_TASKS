@@ -1,6 +1,6 @@
 /********************************************************************************/
 /* Author  : BESHO																*/
-/* Version : V01																*/
+/* Version : V01.1																*/
 /* Date    : 31 AUG 2020														*/
 /********************************************************************************/
 
@@ -12,5 +12,6 @@ static void DisableAllCols(void);
 
 static void SetRowValues(u8 Copy_u8Value);
 
+static void HLEDMRX_voidDisplayOnce(u8 *Copy_u8Data, u8 Copy_u8ScrollCounter);
 
 #endif
