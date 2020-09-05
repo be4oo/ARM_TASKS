@@ -14,6 +14,8 @@ typedef struct
 {
 	u32 Priodicity;
 	void (*Fptr) (void);
+	u8 FirstDelay;
+	u8 State;
 }Task;
 
 

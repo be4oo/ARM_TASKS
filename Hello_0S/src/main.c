@@ -34,9 +34,9 @@ int main(void)
 	MGPIO_voidSetPinDirection(GPIOA,PIN1,OUTPUT_SPEED_2MHZ_PP);
 	MGPIO_voidSetPinDirection(GPIOA,PIN2,OUTPUT_SPEED_2MHZ_PP);
 
-	SOS_voidCreateTask(0, 1000, LED1);
-	SOS_voidCreateTask(1, 2000, LED2);
-	SOS_voidCreateTask(2, 3000, LED3);
+	SOS_voidCreateTask(0, 1000, LED1, 0);
+	SOS_voidCreateTask(1, 2000, LED2, 1);
+	SOS_voidCreateTask(2, 3000, LED3, 2);
 
 	SOS_voidStart();
 

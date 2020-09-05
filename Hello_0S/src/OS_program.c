@@ -24,10 +24,11 @@
 static Task OS_Tasks[NUMBER_OF_TASKS] = { NULL };
 
 
-void SOS_voidCreateTask(u8 Copy_u8ID, u16 Copy_u8Priodicity, void (*ptr) (void))
+void SOS_voidCreateTask(u8 Copy_u8ID, u32 Copy_u8Priodicity, void (*ptr) (void), u8 Copy_u8FirstDelay)
 {
 	OS_Tasks[Copy_u8ID].Priodicity = Copy_u8Priodicity;
 	OS_Tasks[Copy_u8ID].Fptr = ptr;
+	OS_Tasks[Copy_u8ID].FirstDelay = Copy_u8FirstDelay;
 }
 
 
@@ -44,15 +45,27 @@ void SOS_voidStart(void)
 	
 }
 
-volatile u16 TickCounts = 0;
+//volatile u16 TickCounts = 0;
 void Schedular(void)
 {
+
 	for(u8 i = 0 ; i < NUMBER_OF_TASKS ; i++)
 	{
-		if((TickCounts % OS_Tasks[i].Priodicity) == 0)
-		{
-			OS_Tasks[i].Fptr();
-		}
+		//if((OS_Tasks[i].Fptr() != NULL) && (OS_Tasks[i].State == TASK_READY))
+		//{
+		//OS_Tasks[i].Fptr();
+			if((OS_Tasks[i].FirstDelay) == 0)
+			{
+				/* counts until it equal 0 */
+				OS_Tasks[i].FirstDelay = OS_Tasks[i].Priodicity - 1;
+				OS_Tasks[i].Fptr();
+			}
+			else
+			{
+				/* counts until it equal 0 */
+				OS_Tasks[i].FirstDelay--;
+			}
+		//}
 	}
-	TickCounts++;
+	//TickCounts++;
 }
