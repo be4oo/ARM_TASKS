@@ -173,14 +173,14 @@ void HLEDMRX_voidDisplayOnce(u8 *Copy_u8Data, u8 Copy_u8ScrollCounter)
 
 void HLEDMRX_voidDisplayScroll(u8 *Copy_u8BigData)
 {
-
+	u8 Local_ArraySize = ArraySize1 - 7;
 	//volatile long int i = 50000;
 
 	while(1)
 	{
 
 
-		for(int t = 0 ; t < 19 ; t++)
+		for(int t = 0 ; t < Local_ArraySize ; t++)
 		{
 			HLEDMRX_voidDisplayOnce(Copy_u8BigData, t);
 			MSTK_voidSetBusyWait(30000);

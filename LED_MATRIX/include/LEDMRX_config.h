@@ -28,5 +28,7 @@
 #define LEDMRX_COL6_PIN             GPIOB,9
 #define LEDMRX_COL7_PIN             GPIOB,10
 
+#define ArraySize1					39
+
 
 #endif
