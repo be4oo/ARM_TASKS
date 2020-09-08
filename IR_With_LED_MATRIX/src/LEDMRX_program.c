@@ -106,7 +106,7 @@ void HLEDMRX_voidDisplayOnce(u8 *Copy_u8Data, u8 Copy_u8ScrollCounter)
 
 	volatile u32 x = 2500;
 
-	for(int i = 0 ; i < 12 ; i++)
+	for(int i = 0 ; i < 30 ; i++)
 	{
 	/* disable all col */
 	DisableAllCols();
@@ -283,7 +283,7 @@ void HLEDMRX_voidDisplayScroll(u8 *Copy_u8BigData)
 
 void HLEDMRX_voidDisplayPlayer(u8 *Copy_u8PlayerData, u8 *Copy_u8BallData)
 {
-	while(1)
+	for(int j = 0 ; j < 1 ; j++)
 	{
 		HLEDMRX_voidDisplayOnce(Copy_u8PlayerData, 0);
 		HLEDMRX_voidDisplayBall(Copy_u8BallData);
