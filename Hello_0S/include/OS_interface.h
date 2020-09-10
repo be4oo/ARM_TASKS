@@ -11,11 +11,21 @@
 
 
 
-void SOS_voidCreateTask(u8 Copy_u8ID, u32 Copy_u8Priodicity, void (*ptr) (void), u8 Copy_u8FirstDelay);
+void SOS_voidCreateTask(u8 Copy_u8ID, u32 Copy_u8Priodicity, void (*ptr) (void), u32 Copy_u8FirstDelay);
 
 void SOS_voidStart(void);
 
-void Schedular(void);
+static void Schedular(void);
+
+/* taking task ID to suspend  */
+void SuspendTask(u8 Copy_u8TaskSID);
+
+/* taking task ID to resume  */
+void ResumeTask(u8 Copy_u8TaskRID);
+
+/* taking task ID to delete  */
+void DeleteTask(u8 Copy_u8TaskRID);
+
 
 
 
