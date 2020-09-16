@@ -17,26 +17,27 @@
 #include "STP_config.h"
 
 
-
-void HSTP_voidSendSynchronus(u16 Copy_u8DataToSend, u8 Copy_u8NumOfECU)
+void HSTP_voidSendSynchronous(u32 Copy_u8DataToSend, u8 Copy_u8NumberOfRegisters)
 {
-	/* send bit by bit starting from MSb (Most S bit) */
-	s8 Local_s8Counter = (Copy_u8NumOfECU * 8) - 1;
+	s8 Local_u8Counter;
 	u8 Local_u8Bit;
-	for( ; Local_s8Counter >= 0; Local_s8Counter--)
+
+	Local_u8Counter = Copy_u8NumberOfRegisters * 8 - 1;
+
+	for (; Local_u8Counter >= 0; Local_u8Counter--)
 	{
-		Local_u8Bit = GET_BIT(Copy_u8DataToSend,Local_s8Counter);
+		/*Send bit by bit starting from MSb*/
+		Local_u8Bit = GET_BIT(Copy_u8DataToSend, Local_u8Counter);
 		
 		MGPIO_voidSetPinValue(HSTP_SERIAL_DATA, Local_u8Bit);
 		
-		/* Send PULSE to Shift Clock */
+		/*send pulse to shift reg clock*/
 		MGPIO_voidSetPinValue(HSTP_SHIFT_CLOCK, GPIO_HIGH);
 		MSTK_voidSetBusyWait(1);
 		MGPIO_voidSetPinValue(HSTP_SHIFT_CLOCK, GPIO_LOW);
 		MSTK_voidSetBusyWait(1);
 	}
-	
-	/* Send PULSE to Storge Clock */
+	/*send pulse to storage clock*/
 	MGPIO_voidSetPinValue(HSTP_STORE_DATA, GPIO_HIGH);
 	MSTK_voidSetBusyWait(1);
 	MGPIO_voidSetPinValue(HSTP_STORE_DATA, GPIO_LOW);

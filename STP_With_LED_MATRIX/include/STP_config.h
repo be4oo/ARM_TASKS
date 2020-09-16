@@ -5,13 +5,12 @@
 /********************************************************************************/
 
 
-#ifndef STP_INTERFACE_H
-#define STP_INTERFACE_H
+#ifndef STP_CONFIG_H
+#define STP_CONFIG_H
 
 
-/* Synchronus == wait the signal clock */
-void HSTP_voidSendSynchronus(u16 Copy_u8DataToSend, u8 Copy_u8NumOfECU);
-
-
+#define		HSTP_SERIAL_DATA		GPIOA,0
+#define		HSTP_SHIFT_CLOCK		GPIOA,1
+#define		HSTP_STORE_DATA			GPIOA,2
 
 #endif

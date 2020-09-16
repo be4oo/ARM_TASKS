@@ -5,13 +5,8 @@
 /********************************************************************************/
 
 
-#ifndef STP_INTERFACE_H
-#define STP_INTERFACE_H
-
-
-/* Synchronus == wait the signal clock */
-void HSTP_voidSendSynchronus(u16 Copy_u8DataToSend, u8 Copy_u8NumOfECU);
-
+#ifndef STP_PRIVATE_H
+#define STP_PRIVATE_H
 
 
 #endif

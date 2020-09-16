@@ -26,6 +26,10 @@ u8 DataArray1[ArraySize1] = {0, 0, 0, 0, 0, 0, 0, 127, 73, 73, 54, 0, 56, 84, 84
 u8 DataArray2[] = {0, 196, 43, 63, 43, 196, 0, 0};
 
 u8 DataArray3[] = {0, 196, 43, 63, 43, 68, 128, 0};
+
+
+u8 DataArray4 = {0, 0, 0, 0, 0, 0, 0, 1};
+
 void main(void)
 {
 	RCC_voidInitSysClock();
@@ -38,9 +42,9 @@ void main(void)
 
 	HLEDMRX_voidInit();
 
-	//HLEDMRX_voidDisplay(DataArray2);
+	HLEDMRX_voidDisplay(DataArray4);
 
-	HLEDMRX_voidDisplayPlayer(DataArray2, DataArray3);
+	//HLEDMRX_voidDisplayPlayer(DataArray2, DataArray3);
 
 	//HLEDMRX_voidDisplayScroll(DataArray1);
 
