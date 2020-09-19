@@ -14,24 +14,35 @@
 
 #include "STP_interface.h"
 
-u8 B[8] = {0, 28, 36, 36, 28, 36, 36, 28};
+/* inverted "B" */
+//u8 B[8] = {227, 219, 219, 227, 219, 219, 227, 255};
+/* Normal "B" */
+u8 B[8] = {28, 36, 36, 28, 36, 36, 28, 0};
+
+void FixDraw(u8 *Frame);
 
 /*
-u8 GetNewRow(u8 Frame[], u8 Bit)
-{
-	u8 NR = 0;
-	u8 Get = 0;
-	for(u8 x = 0 ; x > 8 ; x++)
-	{
-		for(u8 y = 0 ; y > 8 ; y++)
-		{
-			Get = GET_BIT(Frame[x],Bit);
-			NR |= Get << y;
-		}
-	}
-	return NR;
-}
-*/
+u8 Col[8] = {
+		0b11111110,
+		0b11111101,
+		0b11111011,
+		0b11110111,
+		0b11101111,
+		0b11011111,
+		0b10111111,
+		0b01111111
+};*/
+/*
+u8 Col[8] = {
+		0b00000001,
+		0b00000010,
+		0b00000100,
+		0b00001000,
+		0b00010000,
+		0b00100000,
+		0b01000000,
+		0b10000000
+};*/
 
 void main(void)
 {
@@ -45,21 +56,32 @@ void main(void)
 	MGPIO_voidSetPinDirection(GPIOA,PIN2,OUTPUT_SPEED_2MHZ_PP);
 
 
+
+	HSTP_voidSendSynchronous(0x018F, 2);
+
 	u8 Col = 1;
+
+	FixDraw(&B);
 
 	while(1)
 	{
-
 		for (u8 i = 0; i < 8; i++)
 		{
-			u16 Local_u16DataToSend = (~Col << 8) | B[i];
+			u16 Local_u16DataToSend = (Col<<8) | B[i];
 			//HSTP_voidSendSynchronous(0xFE1C, 2); FE(0b1111 1110) ==> Col , 1C(0b00111000) ==> Row
 			HSTP_voidSendSynchronous(Local_u16DataToSend, 2);
 			MSTK_voidSetBusyWait(2500);
 			Col = Col << 1;
 		}
 		Col = 1;
+	}
+}
 
+void FixDraw(u8 *Frame)
+{
+	for (u8 j = 0; j < 8; j++)
+	{
+		*(Frame+j) = ~(*(Frame+j));
 	}
 }
 
