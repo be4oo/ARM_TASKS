@@ -15,7 +15,8 @@
 #include "TFT_config.h"
 
 
- 
+//static void HTFT_voidBounders(0,127,0,159);
+
 void HTFT_voidInitialize(void)
 {
 	/* Reset Pulse */
@@ -45,28 +46,14 @@ void HTFT_voidInitialize(void)
 	
 }
 
+
 void HTFT_voidDisplayImage(const u16 * Copy_Image)
 {
 	u16  Counter;
 	/* Set 'x' address */
 	voidWriteCommand(0x2A);
 		/* area of working */
-	/* strat of 'x' */
-	voidWriteData(0);
-	voidWriteData(0);
-	/* end of 'x' */
-	voidWriteData(0);
-	voidWriteData(127);
-
-	/* Set 'y' address */
-	voidWriteCommand(0x2B);
-		/* area of working */
-	/* strat of 'y' */
-	voidWriteData(0);
-	voidWriteData(0);
-	/* end of 'y' */
-	voidWriteData(0);
-	voidWriteData(159);
+	HTFT_voidBounders(0,127,0,159);
 
 	/* RAM write */
 	voidWriteCommand(0x2C);
@@ -84,6 +71,83 @@ void HTFT_voidDisplayImage(const u16 * Copy_Image)
 	
 }
 
+void HTFT_voidFillColor(u16  Copy_u16Color)
+{
+	u16  Counter;
+
+	HTFT_voidBounders(0,127,0,159);
+
+	/* RAM write */
+	voidWriteCommand(0x2C);
+
+	for(Counter = 0 ; Counter < 20480 ; Counter++)
+	{
+		/* write the high byte */
+		voidWriteData(Copy_u16Color >> 8);
+		/* write the low byte */
+		voidWriteData(Copy_u16Color & 0x00FF);
+
+
+	}
+	/* to invert color */
+	//voidWriteCommand(0x21);
+
+
+}
+/*
+void HTFT_voidDrawPixel(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color)
+{
+
+}*/
+void HTFT_voidDrawRect(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color)
+{
+	u16  Counter;
+
+	u16 Size = (x2 - x1 +1) * (y2 - y1 +1);
+
+	HTFT_voidBounders(x1,x2,y1,y2);
+
+	/* RAM write */
+	voidWriteCommand(0x2C);
+
+	for(Counter = 0 ; Counter <= Size ; Counter++)
+	{
+		/* write the high byte */
+		voidWriteData(Copy_u16Color >> 8);
+		/* write the low byte */
+		voidWriteData(Copy_u16Color & 0x00FF);
+
+
+	}
+	/* to invert color */
+	//voidWriteCommand(0x21);
+
+
+}
+
+static void HTFT_voidBounders(u8 x1, u8 x2, u8 y1, u8 y2)
+{
+	/* Set 'x' address */
+	voidWriteCommand(0x2A);
+		/* area of working */
+	/* start of 'x' */
+	voidWriteData(0);
+	voidWriteData(x1);
+	/* end of 'x' */
+	voidWriteData(0);
+	voidWriteData(x2);
+
+	/* Set 'y' address */
+	voidWriteCommand(0x2B);
+		/* area of working */
+	/* start of 'y' */
+	voidWriteData(0);
+	voidWriteData(y1);
+	/* end of 'y' */
+	voidWriteData(0);
+	voidWriteData(y2);
+
+}
 
 static void voidWriteCommand(u8 Copy_u8Command)
 {

@@ -22,6 +22,7 @@ void MSPI1_voidSendReceiveSynch(u8 Copy_u8DataToTransmit, u8 *Copy_DataToReceive
 {
 	/* Clear For Slave Select Pin */
 	MGPIO_voidSetPinValue(MSPI1_SLAVE_PIN,GPIO_LOW);
+	/* cause it active low */
 	
 	/* Send Data */
 	MSPI1 -> DR = Copy_u8DataToTransmit;

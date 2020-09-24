@@ -36,7 +36,11 @@ void main(void)
 
 	HTFT_voidInitialize();
 
-	HTFT_voidDisplayImage(Besho);
+	//HTFT_voidDisplayImage(Besho);
+
+	HTFT_voidFillColor(0xffff);
+
+	HTFT_voidDrawRect(10,118,20,139,0);
 
 
 
