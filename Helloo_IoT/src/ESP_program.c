@@ -119,7 +119,7 @@ u8 ESP_u8WebState(void)
 	{
 		/* Send */
 		MUART_voidTransmit("AT+CIPSEND=45\r\n");
-		Local_u8Result = u8ValidateCmd(300);
+		Local_u8Result = u8ValidateCmd(10000);
 	}
 	Local_u8Result = 0;
 		/* get state */
