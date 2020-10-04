@@ -14,6 +14,8 @@
 #include "TFT_private.h"
 #include "TFT_config.h"
 
+#include "font.h"
+
 
 //static void HTFT_voidBounders(0,127,0,159);
 
@@ -94,11 +96,44 @@ void HTFT_voidFillColor(u16  Copy_u16Color)
 
 
 }
-/*
-void HTFT_voidDrawPixel(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color)
+
+void HTFT_voidDrawPixel(u8 x1, u8 y1, u16  Copy_u16Color)
 {
 
-}*/
+	HTFT_voidBounders(x1,x1+2,y1,y1+2);
+
+	/* RAM write */
+	voidWriteCommand(0x2C);
+
+	for(u16 Counter = 0 ; Counter <= 9 ; Counter++)
+	{
+		/* write the high byte */
+		voidWriteData(Copy_u16Color >> 8);
+		/* write the low byte */
+		voidWriteData(Copy_u16Color & 0x00FF);
+	}
+}
+
+void HTFT_voidDrawChar(u8 x1,u8 y1,u8 color, u8 charcter)
+{
+	u8 value;
+    for (u8 i = 0; i < 5; i++)
+    {
+        for (u8 j = 0; j < 8; j++)
+        {
+            value = 0;
+            value = ((font[(charcter) - 0x20][i]));
+
+            if((value >> j)  & 0x01)
+            {
+            	HTFT_voidDrawPixel(x1, y1, color);
+            }
+         }
+        x1 += 3;
+        y1 += 3;
+     }
+}
+
 void HTFT_voidDrawRect(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color)
 {
 	u16  Counter;
@@ -116,8 +151,6 @@ void HTFT_voidDrawRect(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color)
 		voidWriteData(Copy_u16Color >> 8);
 		/* write the low byte */
 		voidWriteData(Copy_u16Color & 0x00FF);
-
-
 	}
 	/* to invert color */
 	//voidWriteCommand(0x21);

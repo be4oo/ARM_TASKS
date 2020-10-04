@@ -40,9 +40,10 @@ void main(void)
 
 	HTFT_voidFillColor(0xffff);
 
-	HTFT_voidDrawRect(10,118,20,139,0);
+	//HTFT_voidDrawRect(10,118,20,139,0);
 
+	//HTFT_voidDrawPixel(20,20,0);
 
-
+	HTFT_voidDrawChar(20,20,0,'t');
 
 }
