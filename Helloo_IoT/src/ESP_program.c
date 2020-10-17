@@ -102,7 +102,7 @@ void ESP_voidSendData(void)
 	{
 		/* set IP */
 		MUART_voidTransmit("AT+CIPSTART=\"TCP\",\"162.253.155.226\",80\r\n");
-		Local_u8Result = u8ValidateCmd(10000);
+		Local_u8Result = u8ValidateCmd(30000);
 	}
 
 	Local_u8Result = 0;

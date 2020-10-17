@@ -40,10 +40,16 @@ void main(void)
 
 	HTFT_voidFillColor(0xffff);
 
+	/* testing Rect function */
 	//HTFT_voidDrawRect(10,118,20,139,0);
 
+	/* testing pixel function */
 	//HTFT_voidDrawPixel(20,20,0);
+	//HTFT_voidDrawPixel(20,21,0);
+	//HTFT_voidDrawPixel(20,22,0);
+	//HTFT_voidDrawPixel(21,20,0);
 
-	HTFT_voidDrawChar(20,20,0,'t');
+	HTFT_voidDrawChar(70,70,0,0xffff,'w');
 
+	//HTFT_voidDrawString(10,100,0,0xffff,"BESHO");
 }

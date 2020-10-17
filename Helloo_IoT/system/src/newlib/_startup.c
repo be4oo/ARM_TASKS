@@ -333,7 +333,7 @@ _start (void)
   __run_init_array ();
 
   // Call the main entry point, and save the exit code.
-  int code = main (argc, argv);
+  int code = Besho (argc, argv);
 
   // Run the C++ static destructors.
   __run_fini_array ();

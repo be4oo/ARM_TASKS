@@ -19,6 +19,76 @@
 
 //static void HTFT_voidBounders(0,127,0,159);
 
+		/* static functions used just here */
+static void HTFT_voidDrawPixel(u8 x1, u8 y1, u16  Copy_u16Color)
+{
+
+	HTFT_voidBounders(x1,x1+2,y1,y1+2);
+
+	/* RAM write */
+	voidWriteCommand(0x2C);
+
+	for(u8 Counter = 0 ; Counter <= PixelSize ; Counter++)
+	{
+		DrawTheColor(Copy_u16Color);
+	}
+}
+
+static void DrawTheColor(u16 Color)
+{
+	/* write the high byte */
+	voidWriteData(Color >> 8);
+	/* write the low byte */
+	voidWriteData(Color & 0x00FF);
+}
+
+static void HTFT_voidBounders(u8 x1, u8 x2, u8 y1, u8 y2)
+{
+	/* Set 'x' address */
+	voidWriteCommand(0x2A);
+		/* area of working */
+	/* start of 'x' */
+	voidWriteData(0);
+	voidWriteData(x1);
+	/* end of 'x' */
+	voidWriteData(0);
+	voidWriteData(x2);
+
+	/* Set 'y' address */
+	voidWriteCommand(0x2B);
+		/* area of working */
+	/* start of 'y' */
+	voidWriteData(0);
+	voidWriteData(y1);
+	/* end of 'y' */
+	voidWriteData(0);
+	voidWriteData(y2);
+
+}
+
+static void voidWriteCommand(u8 Copy_u8Command)
+{
+	u8 Local_u8Temp;
+
+	/* Set A0 pin to LOW */
+	MGPIO_voidSetPinValue(TFT_A0_PIN,GPIO_LOW);
+
+	/* Send Command over SPI */
+	MSPI1_voidSendReceiveSynch(Copy_u8Command,&Local_u8Temp);
+}
+
+static void voidWriteData(u8 Copy_u8Data)
+{
+	u8 Local_u8Temp;
+
+	/* Set A0 pin to HIGH */
+	MGPIO_voidSetPinValue(TFT_A0_PIN,GPIO_HIGH);
+
+	/* Send Data over SPI */
+	MSPI1_voidSendReceiveSynch(Copy_u8Data,&Local_u8Temp);
+}
+
+		/* interfacing functions */
 void HTFT_voidInitialize(void)
 {
 	/* Reset Pulse */
@@ -47,7 +117,6 @@ void HTFT_voidInitialize(void)
 
 	
 }
-
 
 void HTFT_voidDisplayImage(const u16 * Copy_Image)
 {
@@ -97,43 +166,6 @@ void HTFT_voidFillColor(u16  Copy_u16Color)
 
 }
 
-void HTFT_voidDrawPixel(u8 x1, u8 y1, u16  Copy_u16Color)
-{
-
-	HTFT_voidBounders(x1,x1+2,y1,y1+2);
-
-	/* RAM write */
-	voidWriteCommand(0x2C);
-
-	for(u16 Counter = 0 ; Counter <= 9 ; Counter++)
-	{
-		/* write the high byte */
-		voidWriteData(Copy_u16Color >> 8);
-		/* write the low byte */
-		voidWriteData(Copy_u16Color & 0x00FF);
-	}
-}
-
-void HTFT_voidDrawChar(u8 x1,u8 y1,u8 color, u8 charcter)
-{
-	u8 value;
-    for (u8 i = 0; i < 5; i++)
-    {
-        for (u8 j = 0; j < 8; j++)
-        {
-            value = 0;
-            value = ((font[(charcter) - 0x20][i]));
-
-            if((value >> j)  & 0x01)
-            {
-            	HTFT_voidDrawPixel(x1, y1, color);
-            }
-         }
-        x1 += 3;
-        y1 += 3;
-     }
-}
-
 void HTFT_voidDrawRect(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color)
 {
 	u16  Counter;
@@ -147,10 +179,7 @@ void HTFT_voidDrawRect(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color)
 
 	for(Counter = 0 ; Counter <= Size ; Counter++)
 	{
-		/* write the high byte */
-		voidWriteData(Copy_u16Color >> 8);
-		/* write the low byte */
-		voidWriteData(Copy_u16Color & 0x00FF);
+		DrawTheColor(Copy_u16Color);
 	}
 	/* to invert color */
 	//voidWriteCommand(0x21);
@@ -158,49 +187,67 @@ void HTFT_voidDrawRect(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color)
 
 }
 
-static void HTFT_voidBounders(u8 x1, u8 x2, u8 y1, u8 y2)
+void HTFT_voidDrawChar(u8 x1,u8 y1,u8 CharColor, u8 BackColor, u8 charcter)
 {
-	/* Set 'x' address */
-	voidWriteCommand(0x2A);
-		/* area of working */
-	/* start of 'x' */
-	voidWriteData(0);
-	voidWriteData(x1);
-	/* end of 'x' */
-	voidWriteData(0);
-	voidWriteData(x2);
+	u8 value;
 
-	/* Set 'y' address */
-	voidWriteCommand(0x2B);
-		/* area of working */
-	/* start of 'y' */
-	voidWriteData(0);
-	voidWriteData(y1);
-	/* end of 'y' */
-	voidWriteData(0);
-	voidWriteData(y2);
+	u8 charX1 = x1;
+	u8 charY1 = y1;
+
+
+    for (u8 i = 0; i < 5; i++)
+    {
+        for (u8 j = 0; j < 8; j++)
+        {
+            value = 0;
+
+            value = ((font[(charcter) - 32][i]));
+
+            if(value & (1 << j))
+            {
+            	HTFT_voidDrawPixel(charX1, charY1, CharColor);
+            }
+            else
+            {
+            	HTFT_voidDrawPixel(charX1, charY1, BackColor);
+            }
+            charY1 += 3;
+            /* drawing "t"
+              ####0###
+              ###000##
+              ####0###
+              ####0###
+              ####000#		<< shifting by charY1 += 3; to draw 8 pixels
+             */
+
+         }
+        /* to set the charY1 to the start box of the letter */
+        charY1 = y1;
+
+        charX1 += 3;
+        /* drawing "t"
+          ####0###
+          ###000##
+          ####0###		/\
+          ####0###		/\
+          ####000#		/\ shifting by charX1 += 3; to draw 5 raws
+         */
+     }
+
 
 }
 
-static void voidWriteCommand(u8 Copy_u8Command)
+void HTFT_voidDrawString(u8 x1,u8 y1,u8 CharColor, u8 BackColor, u16 * string)
 {
-	u8 Local_u8Temp;
+	u8 c = 0;
+	for(u8 i = 0; i > 5 ; i++)
+	{
+		if(string[i] != '\0' )
+		{
+			c = string[i];
+			HTFT_voidDrawChar(x1,y1,CharColor,BackColor,c);
+		}
 
-	/* Set A0 pin to LOW */
-	MGPIO_voidSetPinValue(TFT_A0_PIN,GPIO_LOW);
-
-	/* Send Command over SPI */
-	MSPI1_voidSendReceiveSynch(Copy_u8Command,&Local_u8Temp);
-}
-
-static void voidWriteData(u8 Copy_u8Data)
-{
-	u8 Local_u8Temp;
-
-	/* Set A0 pin to HIGH */
-	MGPIO_voidSetPinValue(TFT_A0_PIN,GPIO_HIGH);
-
-	/* Send Data over SPI */
-	MSPI1_voidSendReceiveSynch(Copy_u8Data,&Local_u8Temp);
+	}
 }
 

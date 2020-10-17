@@ -17,8 +17,8 @@ void HTFT_voidFillColor(u16  Copy_u16Color);
 
 void HTFT_voidDrawRect(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color);
 
-void HTFT_voidDrawPixel(u8 x1, u8 y1, u16  Copy_u16Color);
+void HTFT_voidDrawChar(u8 x1,u8 y1,u8 CharColor, u8 BackColor, u8 charcter);
 
-void HTFT_voidDrawChar(u8 x1, u8 y1,u8 color, u8 charcter);
+void HTFT_voidDrawString(u8 x1,u8 y1,u8 CharColor, u8 BackColor, u16 * string);
 
 #endif
