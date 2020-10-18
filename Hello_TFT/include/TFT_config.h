@@ -14,7 +14,7 @@
 #define TFT_RST_PIN		GPIOA,1
 
 	/* typing on screen defines */
-#define PixelSize		9
+#define PixelLenght		3
 
 
 

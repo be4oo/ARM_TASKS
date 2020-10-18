@@ -44,12 +44,31 @@ void main(void)
 	//HTFT_voidDrawRect(10,118,20,139,0);
 
 	/* testing pixel function */
-	//HTFT_voidDrawPixel(20,20,0);
+	//HTFT_voidDrawPixel(5,5,0);
 	//HTFT_voidDrawPixel(20,21,0);
 	//HTFT_voidDrawPixel(20,22,0);
 	//HTFT_voidDrawPixel(21,20,0);
 
-	HTFT_voidDrawChar(70,70,0,0xffff,'w');
+	//HTFT_voidDrawChar(5,5,0x808000,0xFFFF00,'A');
 
-	//HTFT_voidDrawString(10,100,0,0xffff,"BESHO");
+	u8 StartX = 5;
+	u8 StartY = 5;
+	u8 NewLine = (3 * 8) + 2;
+
+	HTFT_voidDrawString(StartX,StartY,0x808000,0xFFFFFF,"BESHO");
+
+	StartY += NewLine;
+	HTFT_voidDrawString(StartX,StartY,0x808000,0xFFFFFF,"EFRAIM");
+
+	StartY += NewLine;
+	HTFT_voidDrawString(StartX,StartY,0x808000,0xFFFFFF,"AYA");
+
+	StartY += NewLine;
+	HTFT_voidDrawString(StartX,StartY,0x808000,0xFFFFFF,"SARA");
+
+	StartY += NewLine;
+	HTFT_voidDrawString(StartX,StartY,0x808000,0xFFFFFF,"DOAA");
+
+
+
 }

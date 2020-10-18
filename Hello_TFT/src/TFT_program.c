@@ -23,8 +23,12 @@
 static void HTFT_voidDrawPixel(u8 x1, u8 y1, u16  Copy_u16Color)
 {
 
-	HTFT_voidBounders(x1,x1+2,y1,y1+2);
+	/* adusting pixel size */
+	u8 x2 = x1 + PixelLenght - 1;
+	u8 y2 = y1 + PixelLenght - 1;
+	HTFT_voidBounders(x1,x2,y1,y2);
 
+	u8 PixelSize = PixelLenght * PixelLenght;
 	/* RAM write */
 	voidWriteCommand(0x2C);
 
@@ -187,17 +191,16 @@ void HTFT_voidDrawRect(u8 x1, u8 x2, u8 y1, u8 y2, u16  Copy_u16Color)
 
 }
 
-void HTFT_voidDrawChar(u8 x1,u8 y1,u8 CharColor, u8 BackColor, u8 charcter)
+void HTFT_voidDrawChar(u8 x1,u8 y1,u16 CharColor, u16 BackColor, u8 charcter)
 {
 	u8 value;
 
 	u8 charX1 = x1;
 	u8 charY1 = y1;
 
-
     for (u8 i = 0; i < 5; i++)
     {
-        for (u8 j = 0; j < 8; j++)
+        for (u8 j = 0; j < 7; j++)
         {
             value = 0;
 
@@ -211,7 +214,7 @@ void HTFT_voidDrawChar(u8 x1,u8 y1,u8 CharColor, u8 BackColor, u8 charcter)
             {
             	HTFT_voidDrawPixel(charX1, charY1, BackColor);
             }
-            charY1 += 3;
+            charY1 += PixelLenght;
             /* drawing "t"
               ####0###
               ###000##
@@ -224,7 +227,7 @@ void HTFT_voidDrawChar(u8 x1,u8 y1,u8 CharColor, u8 BackColor, u8 charcter)
         /* to set the charY1 to the start box of the letter */
         charY1 = y1;
 
-        charX1 += 3;
+        charX1 += PixelLenght;
         /* drawing "t"
           ####0###
           ###000##
@@ -237,17 +240,21 @@ void HTFT_voidDrawChar(u8 x1,u8 y1,u8 CharColor, u8 BackColor, u8 charcter)
 
 }
 
-void HTFT_voidDrawString(u8 x1,u8 y1,u8 CharColor, u8 BackColor, u16 * string)
+void HTFT_voidDrawString(u8 x1,u8 y1,u16 CharColor, u16 BackColor, u8 * string)
 {
+	u8 x = x1;
+	u8 y = y1;
 	u8 c = 0;
-	for(u8 i = 0; i > 5 ; i++)
+	u8 i = 0;
+	while(string[i] != '\0' )
 	{
-		if(string[i] != '\0' )
-		{
-			c = string[i];
-			HTFT_voidDrawChar(x1,y1,CharColor,BackColor,c);
-		}
 
+		c = string[i];
+		HTFT_voidDrawChar(x,y,CharColor,BackColor,c);
+		i++;
+		x += ((PixelLenght * 5) + 2);
+		//y += (PixelLenght * 5);
 	}
+
 }
 
