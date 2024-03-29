@@ -6,16 +6,19 @@
   * @date    11-March-2011
   * @brief   CMSIS Cortex-M3 Device Peripheral Access Layer System Header File.
   ******************************************************************************
+  * This file contains the system header file for the STM32F10x device, which
+  * is part of the CMSIS (Cortex Microcontroller Software Interface Standard).
+  * It includes the necessary definitions, macros, and function prototypes for
+  * initializing and managing the system clock and other related system services.
+  *
   * @attention
+  * The present firmware is provided as a guidance only and STMicroelectronics
+  * shall not be held liable for any direct, indirect or consequential damages
+  * with respect to any claims arising from the content of such firmware and/or
+  * the use made by customers of the coding information contained herein in
+  * connection with their products.
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-  *
-  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
+  * Copyright (c) 2011 STMicroelectronics
   ******************************************************************************
   */
 
@@ -30,6 +33,8 @@
 /**
   * @brief Define to prevent recursive inclusion
   */
+// Prevents the header file from being included multiple times in the same source file,
+// which can cause errors and unnecessary redefinition of symbols.
 #ifndef __SYSTEM_STM32F10X_H
 #define __SYSTEM_STM32F10X_H
 
@@ -45,12 +50,12 @@
   * @}
   */
 
-
 /** @addtogroup STM32F10x_System_Exported_types
   * @{
   */
 
-extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
+// Defines a variable that holds the System Clock Frequency (Core Clock)
+extern uint32_t SystemCoreClock;
 
 /**
   * @}
@@ -76,8 +81,12 @@ extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Cloc
   * @{
   */
   
+// Initializes the system, including the clock system and other related services.
 extern void SystemInit(void);
+
+// Updates the value of the SystemCoreClock variable with the current core clock frequency.
 extern void SystemCoreClockUpdate(void);
+
 /**
   * @}
   */
@@ -91,8 +100,4 @@ extern void SystemCoreClockUpdate(void);
 /**
   * @}
   */
-  
-/**
-  * @}
-  */  
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+
