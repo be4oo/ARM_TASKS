@@ -1,22 +1,12 @@
 /**
-  ******************************************************************************
   * @file    stm32f10x_wwdg.c
   * @author  MCD Application Team
   * @version V3.5.0
   * @date    11-March-2011
   * @brief   This file provides all the WWDG firmware functions.
-  ******************************************************************************
-  * @attention
   *
-  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
-  * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
-  * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
-  * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
-  * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
-  * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-  *
-  * <h2><center>&copy; COPYRIGHT 2011 STMicroelectronics</center></h2>
-  ******************************************************************************
+  * This file contains the implementation of the Watchdog driver for the STM32F10x microcontroller.
+  * It includes functions for initializing, configuring, and managing the Watchdog timer.
   */
 
 /* Includes ------------------------------------------------------------------*/
@@ -96,6 +86,9 @@
 
 /**
   * @brief  Deinitializes the WWDG peripheral registers to their default reset values.
+  *
+  * This function resets the Watchdog peripheral registers to their default reset values.
+  *
   * @param  None
   * @retval None
   */
@@ -107,6 +100,11 @@ void WWDG_DeInit(void)
 
 /**
   * @brief  Sets the WWDG Prescaler.
+  *
+  * This function sets the Watchdog Prescaler value, which determines the counter clock.
+  * The Watchdog counter clock is derived from PCLK1 divided by 4096, and the prescaler
+  * can be configured to divide it further by 1, 2, 4, or 8.
+  *
   * @param  WWDG_Prescaler: specifies the WWDG Prescaler.
   *   This parameter can be one of the following values:
   *     @arg WWDG_Prescaler_1: WWDG counter clock = (PCLK1/4096)/1
@@ -130,6 +128,11 @@ void WWDG_SetPrescaler(uint32_t WWDG_Prescaler)
 
 /**
   * @brief  Sets the WWDG window value.
+  *
+  * This function sets the Watchdog window value, which is the maximum allowed value
+  * for the counter before an early wakeup interrupt is generated. The window value
+  * must be lower than 0x80.
+  *
   * @param  WindowValue: specifies the window value to be compared to the downcounter.
   *   This parameter value must be lower than 0x80.
   * @retval None
@@ -144,81 +147,4 @@ void WWDG_SetWindowValue(uint8_t WindowValue)
 
   tmpreg = WWDG->CFR & CFR_W_Mask;
 
-  /* Set W[6:0] bits according to WindowValue value */
-  tmpreg |= WindowValue & (uint32_t) BIT_Mask;
-
-  /* Store the new value */
-  WWDG->CFR = tmpreg;
-}
-
-/**
-  * @brief  Enables the WWDG Early Wakeup interrupt(EWI).
-  * @param  None
-  * @retval None
-  */
-void WWDG_EnableIT(void)
-{
-  *(__IO uint32_t *) CFR_EWI_BB = (uint32_t)ENABLE;
-}
-
-/**
-  * @brief  Sets the WWDG counter value.
-  * @param  Counter: specifies the watchdog counter value.
-  *   This parameter must be a number between 0x40 and 0x7F.
-  * @retval None
-  */
-void WWDG_SetCounter(uint8_t Counter)
-{
-  /* Check the parameters */
-  assert_param(IS_WWDG_COUNTER(Counter));
-  /* Write to T[6:0] bits to configure the counter value, no need to do
-     a read-modify-write; writing a 0 to WDGA bit does nothing */
-  WWDG->CR = Counter & BIT_Mask;
-}
-
-/**
-  * @brief  Enables WWDG and load the counter value.                  
-  * @param  Counter: specifies the watchdog counter value.
-  *   This parameter must be a number between 0x40 and 0x7F.
-  * @retval None
-  */
-void WWDG_Enable(uint8_t Counter)
-{
-  /* Check the parameters */
-  assert_param(IS_WWDG_COUNTER(Counter));
-  WWDG->CR = CR_WDGA_Set | Counter;
-}
-
-/**
-  * @brief  Checks whether the Early Wakeup interrupt flag is set or not.
-  * @param  None
-  * @retval The new state of the Early Wakeup interrupt flag (SET or RESET)
-  */
-FlagStatus WWDG_GetFlagStatus(void)
-{
-  return (FlagStatus)(WWDG->SR);
-}
-
-/**
-  * @brief  Clears Early Wakeup interrupt flag.
-  * @param  None
-  * @retval None
-  */
-void WWDG_ClearFlag(void)
-{
-  WWDG->SR = (uint32_t)RESET;
-}
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+  /* Set W[6:0]
