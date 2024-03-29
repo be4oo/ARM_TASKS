@@ -1,1 +1,31 @@
-/Debug/
+// Begin /Debug/ section
+
+// This section of code is dedicated to debugging purposes.
+// It contains various statements and functions that help
+// identify and troubleshoot issues within the program.
+
+// The following line prints a debug message to the console,
+// indicating the start of the debugging process.
+Console.WriteLine("Entering debug mode...");
+
+// The next few lines of code are used to initialize and set
+// the values of various debug variables. These variables
+// are used throughout the debugging process to store and
+// manipulate data for analysis.
+
+int debugVariable1 = 0;
+string debugVariable2 = "initial value";
+bool debugVariable3 = false;
+
+// The following function is called to perform a series of
+// debug checks and tests on the program's data and logic.
+// It takes in a single parameter, an integer value that
+// represents the current iteration of the debugging process.
+
+DebugChecks(1);
+
+// Finally, another debug message is printed to the console,
+// indicating the end of the debugging process.
+Console.WriteLine("Exiting debug mode.");
+
+// End /Debug/ section
