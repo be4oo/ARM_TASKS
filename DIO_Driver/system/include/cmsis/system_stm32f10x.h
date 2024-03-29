@@ -6,8 +6,12 @@
   * @date    11-March-2011
   * @brief   CMSIS Cortex-M3 Device Peripheral Access Layer System Header File.
   ******************************************************************************
-  * @attention
+  * This file contains the system header file for the STM32F10x device, which
+  * is part of the CMSIS (Cortex Microcontroller Software Interface Standard).
+  * It includes the necessary definitions, macros, and function prototypes for
+  * initializing and managing the system clock and other related system services.
   *
+  * @attention
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
   * WITH CODING INFORMATION REGARDING THEIR PRODUCTS IN ORDER FOR THEM TO SAVE
   * TIME. AS A RESULT, STMICROELECTRONICS SHALL NOT BE HELD LIABLE FOR ANY
@@ -30,11 +34,14 @@
 /**
   * @brief Define to prevent recursive inclusion
   */
+// This macro is used to prevent the header file from being included multiple times
+// in the same source file, which could lead to errors or unexpected behavior.
 #ifndef __SYSTEM_STM32F10X_H
 #define __SYSTEM_STM32F10X_H
 
 #ifdef __cplusplus
- extern "C" {
+// This block allows the header file to be used in both C and C++ code.
+extern "C" {
 #endif 
 
 /** @addtogroup STM32F10x_System_Includes
@@ -50,6 +57,7 @@
   * @{
   */
 
+// This section defines the data types used by the system functions.
 extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
 
 /**
@@ -72,27 +80,4 @@ extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Cloc
   * @}
   */
 
-/** @addtogroup STM32F10x_System_Exported_Functions
-  * @{
-  */
-  
-extern void SystemInit(void);
-extern void SystemCoreClockUpdate(void);
-/**
-  * @}
-  */
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /*__SYSTEM_STM32F10X_H */
-
-/**
-  * @}
-  */
-  
-/**
-  * @}
-  */  
-/******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/
+/** @addtogroup STM32F10x_System_Export
