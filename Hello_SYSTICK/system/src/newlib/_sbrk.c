@@ -1,39 +1,17 @@
 /*
  * This file is part of the µOS++ distribution.
- *   (https://github.com/micro-os-plus)
- * Copyright (c) 2014 Liviu Ionescu.
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or
- * sell copies of the Software, and to permit persons to whom
- * the Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
+ * It is covered by the µOS++ license, see the LICENSE file for details.
  */
 
 // ----------------------------------------------------------------------------
 
-#include <sys/types.h>
-#include <errno.h>
+#include <sys/types.h> // Include necessary system type definitions
+#include <errno.h> // Include errno for error handling
 
 // ----------------------------------------------------------------------------
 
-caddr_t
-_sbrk(int incr);
+caddr_t /* Returns a pointer to a newly allocated block of memory */
+_sbrk(int incr); // Increase program data space by "incr" bytes
 
 // ----------------------------------------------------------------------------
 
@@ -43,28 +21,25 @@ _sbrk(int incr);
 caddr_t
 _sbrk(int incr)
 {
-  extern char _Heap_Begin; // Defined by the linker.
-  extern char _Heap_Limit; // Defined by the linker.
+  extern char _Heap_Begin; // Defined by the linker, points to the start of the heap
+  extern char _Heap_Limit; // Defined by the linker, points to the end of the heap
 
-  static char* current_heap_end;
-  char* current_block_address;
+  static char* current_heap_end; // Pointer to the current end of the heap
+  char* current_block_address; // Pointer to the start of the new memory block
 
   if (current_heap_end == 0)
     {
-      current_heap_end = &_Heap_Begin;
+      current_heap_end = &_Heap_Begin; // If current_heap_end is not set, initialize it to _Heap_Begin
     }
 
-  current_block_address = current_heap_end;
+  current_block_address = current_heap_end; // Set the current_block_address to the current end of the heap
 
-  // Need to align heap to word boundary, else will get
-  // hard faults on Cortex-M0. So we assume that heap starts on
-  // word boundary, hence make sure we always add a multiple of
-  // 4 to it.
+  // Align heap to word boundary (4-byte on Cortex-M0) to avoid hard faults
   incr = (incr + 3) & (~3); // align value to 4
+
   if (current_heap_end + incr > &_Heap_Limit)
     {
-      // Some of the libstdc++-v3 tests rely upon detecting
-      // out of memory errors, so do not abort here.
+      // If the new heap end exceeds the heap limit, return an error
 #if 0
       extern void abort (void);
 
@@ -78,9 +53,9 @@ _sbrk(int incr)
 #endif
     }
 
-  current_heap_end += incr;
+  current_heap_end += incr; // Update the current end of the heap
 
-  return (caddr_t) current_block_address;
+  return (caddr_t) current_block_address; // Return the pointer to the new memory block
 }
 
 // ----------------------------------------------------------------------------
